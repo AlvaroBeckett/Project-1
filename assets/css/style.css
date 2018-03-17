@@ -55,6 +55,7 @@ header {
  position: fixed;
  left: 0;
  bottom: 0;
+ margin-top: 30px;
  width: 100%;
  height: 100px;
  background-color: #2d4044;
@@ -78,4 +79,33 @@ header {
 #bar-status {
 	color: #000;
 	height: 50px;
+}
+
+.view-more	{
+	float: right;
+}
+
+.cost	{
+	margin-right: 15px;
+}
+
+.quick-view {
+	margin-top: 2em;
+}
+
+.bar-quick-view {
+	border: solid #000 2px;
+	padding: 5px 20px;
+}
+
+.barSection {
+	padding: 5px;
+	border: solid #000 2px;
+	margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 980px) {
+	.bar-quick-view {
+		margin-top: 2em;
+	}
 }
