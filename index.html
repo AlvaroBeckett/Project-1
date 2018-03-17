@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="assets/css/style.css">
 <!-- Javascript -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -16,7 +18,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFjokBeMIo4mkf81PUPUIQ4W72LzO30v8&callback=initMap" async defer></script>
 <script src="assets/javascript/main.js"></script>
 <script src="assets/javascript/map.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+
 
 <body>
     <div class="container-fluid text-center">
@@ -45,11 +47,27 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 map-control" id="map">
+            <div class="col-lg-6 col-sm-12 map-control" id="map">
+            	<div id="map"></div>
             </div>
-            <div id="map"></div>
+            
+            <div class="col-lg-5 col-sm-12">
+        <div class="row bar-status">
+        	
+        		<div class="col-lg-3" id="bar-pic"></div>
+        		<div class="col-lg-8">
+        	<div class="row">
+        		<div class="col-lg-4" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+        		<div class="col-lg-4" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i>
+
+</div>
+        		<div class="col-lg-4"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+        	</div>
         </div>
-        <div class="col-lg-6" id="bar-container"></div>
+        </div>
+    </div>
+    </div>
+    </div>
     </div>
 
 <div class="footer">
