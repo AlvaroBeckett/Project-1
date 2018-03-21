@@ -111,5 +111,3 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
 
-
-//hey guys what's up
