@@ -37,23 +37,26 @@ function initMap() {
         location: currentLocation,
         radius: "5000",
         query: "bar",
+       
       }
       var request2 = {
         location: currentLocation,
         radius: "5000",
         query: "brewery",
+        
+        
       }
-  
-
+     
       var service = new google.maps.places.PlacesService(map);
       service.textSearch(request, callback);
       service.textSearch(request2, callback);
+      
+
       // service.nearbySearch({
       //   location: currentLocation,
       //   radius: 5000,
       //   type: ['bar']
       // }, callback);
-      console.log(callback);
 
       infoWindow.setPosition(currentLocation); 
       infoWindow.setContent('You are here');
@@ -80,10 +83,14 @@ function callback(results, status) {
   }
 }
 function createMarker(place) {
+  //getting object info___________________
+  console.log(place);
+  //_______________________________
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
-    position: place.geometry.location
+    position: place.geometry.location,
+    icon:"assets/images/brewery.png"
   });
 
   google.maps.event.addListener(marker, 'click', function () {
@@ -100,8 +107,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
   infoWindow.open(map);
 }
 
-
 //take these bars and display in html, each with own div (this will also display rating for each bar)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
 
+
+//hey guys what's up
