@@ -32,12 +32,28 @@ function initMap() {
         lng: position.coords.longitude
       };
       console.log(currentLocation);
-      var service = new google.maps.places.PlacesService(map);
-      service.nearbySearch({
+
+      var request = {
         location: currentLocation,
-        radius: 5000,
-        type: ['bar']
-      }, callback);
+        radius: "5000",
+        query: "bar",
+      }
+      var request2 = {
+        location: currentLocation,
+        radius: "5000",
+        query: "brewery",
+      }
+  
+
+      var service = new google.maps.places.PlacesService(map);
+      service.textSearch(request, callback);
+      service.textSearch(request2, callback);
+      // service.nearbySearch({
+      //   location: currentLocation,
+      //   radius: 5000,
+      //   type: ['bar']
+      // }, callback);
+      console.log(callback);
 
       infoWindow.setPosition(currentLocation); 
       infoWindow.setContent('You are here');
@@ -89,5 +105,3 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
 
-
-//hey guys what's up
