@@ -100,7 +100,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
   infoWindow.open(map);
 }
 
-
 //take these bars and display in html, each with own div (this will also display rating for each bar)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
