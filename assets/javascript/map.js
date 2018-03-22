@@ -64,9 +64,8 @@ function findBars() {
     location: currentLocation,
     radius: "5000",
     query: "bar",
-    icon: "assets/images/beer.png",
   }
-  // iconType = "assets/images/beer.png";
+  iconType = "assets/images/beer.png";
   service.textSearch(request, callback);
 }
 
@@ -75,9 +74,8 @@ function findBreweries() {
     location: currentLocation,
     radius: "5000",
     query: "brewery",
-    icon: "assets/images/brewery.png",
   }
-  // iconType = "assets/images/brewery.png";
+  iconType = "assets/images/brewery.png";
   service.textSearch(request, callback);
 }
 
@@ -104,7 +102,7 @@ function createMarker(place) {
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location,
-    // icon: iconType,
+    icon: iconType,
   });
 
   google.maps.event.addListener(marker, 'click', function () {
