@@ -11,66 +11,77 @@ firebase.initializeApp(config);
 
 var map;
 var infoWindow;
-
+var currentLocation;
+var service;
+//get map and display current location, being called in html
 function initMap() {
-  var currentLocation = { lat: 37.5407, lng: -77.4360 };
-
+  var defaultLocation = { lat: 37.5407, lng: -77.4360 };
   map = new google.maps.Map(document.getElementById('map'), {
-    center: currentLocation,
-    zoom: 12
+    center: defaultLocation,
+    zoom: 15
   });
-  console.log(currentLocation);
-
   infoWindow = new google.maps.InfoWindow();
-
-  //--------------------------------
-  ///this is using html 5 geolocation
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       currentLocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      console.log(currentLocation);
-
-      var request = {
-        location: currentLocation,
-        radius: "5000",
-        query: "bar",
-       
-      }
-      var request2 = {
-        location: currentLocation,
-        radius: "5000",
-        query: "brewery",
-        
-        
-        
-      }
-     
-      var service = new google.maps.places.PlacesService(map);
-      service.textSearch(request, callback);
-      service.textSearch(request2, callback);
-      
-
-      // service.nearbySearch({
-      //   location: currentLocation,
-      //   radius: 5000,
-      //   type: ['bar']
-      // }, callback);
-
-      infoWindow.setPosition(currentLocation); 
+      infoWindow.setPosition(currentLocation);
       infoWindow.setContent('You are here');
       infoWindow.open(map);
       map.setCenter(currentLocation);
+
+      service = new google.maps.places.PlacesService(map);
+      findBars();
+      findBreweries();
+
+      //geolocation available, but error
     }, function () {
       handleLocationError(true, infoWindow, map.getCenter());
     });
   }
+  //geolocation not available
   else {
     handleLocationError(false, infoWindow, map.getCenter());
   }
 }
+
+//Handling errors if geolocation not available
+function handleLocationError(browserHasGeolocation, infoWindow, currentLocation) {
+  infoWindow.setPosition(currentLocation);
+  infoWindow.setContent(browserHasGeolocation ?
+    'Error: The Geolocation service failed.' :
+    'Error: Your browser doesn\'t support geolocation.');
+  infoWindow.open(map);
+}
+
+//not working because working asynchronously
+var iconTypeBars;
+var iconTypeBreweries;
+function findBars() {
+  var request = {
+    location: currentLocation,
+    radius: "5000",
+    query: "bar",
+  }
+  iconType = "assets/images/beer.png";
+  service.textSearch(request, callback);
+}
+
+function findBreweries() {
+  var request = {
+    location: currentLocation,
+    radius: "5000",
+    query: "brewery",
+  }
+  iconType = "assets/images/brewery.png";
+  service.textSearch(request, callback);
+}
+
+// var service = new google.maps.places.PlacesService(map);
+// service.textSearch(request, callback);
+// service.textSearch(request2, callback);
 
 
 //Creating bar markers
@@ -91,11 +102,10 @@ function createMarker(place) {
   //_______________________________
  
   var placeLoc = place.geometry.location;
- 
-    var marker = new google.maps.Marker({
-      map: map,
-      position: place.geometry.location,
-      icon:"assets/images/brewery.png"
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location,
+    icon: iconType,
   });
   
   
@@ -106,18 +116,8 @@ function createMarker(place) {
     infoWindow.open(map, this);
   });
 }
-//Handling errors if geolocation not available
-function handleLocationError(browserHasGeolocation, infoWindow, currentLocation) {
-  infoWindow.setPosition(currentLocation);
-  infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-  infoWindow.open(map);
-}
-
 //take these bars and display in html, each with own div (this will also display rating for each bar)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
 
-
-//hey guys what's up
+//===================================================
