@@ -45,6 +45,7 @@ function initMap() {
         query: "brewery",
         
         
+        
       }
      
       var service = new google.maps.places.PlacesService(map);
@@ -75,9 +76,11 @@ function initMap() {
 //Creating bar markers
 function callback(results, status) {
   console.log("results array?" + results);
+  
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       createMarker(results[i]);
+      console.log(results[i].name);
       $("#bar-container").append(`<div id="${results[i].name}"><p>${results[i].name}</p></div>`);
     }
   }
@@ -86,13 +89,18 @@ function createMarker(place) {
   //getting object info___________________
   console.log(place);
   //_______________________________
+ 
   var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location,
-    icon:"assets/images/brewery.png"
+ 
+    var marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location,
+      icon:"assets/images/brewery.png"
   });
-
+  
+  
+   
+  
   google.maps.event.addListener(marker, 'click', function () {
     infoWindow.setContent(place.name);
     infoWindow.open(map, this);
