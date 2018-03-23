@@ -12,14 +12,62 @@ firebase.initializeApp(config);
 var map;
 var infoWindow;
 var currentLocation;
-var service;
+
 //get map and display current location, being called in html
 function initMap() {
   var defaultLocation = { lat: 37.5407, lng: -77.4360 };
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultLocation,
-    zoom: 15
+    zoom: 12
   });
+
+  function createMarker(place, icon) {
+    //getting object info___________________
+    console.log(place, icon);
+    
+    //_______________________________
+   
+    //var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location,
+      icon: icon,
+    });
+    console.log("marker: %O", marker);
+    // marker.setMap(map);  
+     
+    
+    google.maps.event.addListener(marker, 'click', function () {
+      infoWindow.setContent(place.name);
+      infoWindow.open(map, this);
+    });
+  }
+
+  function placesCallback(icon) {
+    return function(results, status) {
+      console.log("results array?" + results);
+    
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i], icon);
+          console.log(results[i].name);
+          $("#bar-container").append(`<div id="${results[i].name}"><p>${results[i].name}</p></div>`);
+        }
+      }
+    };
+  }
+
+  function findPlaces(service, location, query, icon) {
+    var request = {
+      location: location,
+      radius: '5000',
+      query: query,
+      icon: icon,
+    };
+  
+    service.textSearch(request, placesCallback(icon));
+  }
+  
   infoWindow = new google.maps.InfoWindow();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -31,10 +79,16 @@ function initMap() {
       infoWindow.setContent('You are here');
       infoWindow.open(map);
       map.setCenter(currentLocation);
-
-      service = new google.maps.places.PlacesService(map);
-      findBars();
-      findBreweries();
+      
+      var service = new google.maps.places.PlacesService(map);
+      //  findBars(service, currentLocation);
+      //  findBreweries(service, currentLocation);
+      findPlaces(service, currentLocation, 'bar', 'assets/images/beer.png');
+      findPlaces(service, currentLocation, 'brewery', 'assets/images/brewery.png');
+    
+      //service = new google.maps.places.PlacesService(map);
+      //service.nearbySearch(request, callback);
+    
 
       //geolocation available, but error
     }, function () {
@@ -45,6 +99,7 @@ function initMap() {
   else {
     handleLocationError(false, infoWindow, map.getCenter());
   }
+  
 }
 
 //Handling errors if geolocation not available
@@ -57,65 +112,22 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
 }
 
 //not working because working asynchronously
-var iconTypeBars;
-var iconTypeBreweries;
-function findBars() {
-  var request = {
-    location: currentLocation,
-    radius: "5000",
-    query: "bar",
-  }
-  iconType = "assets/images/beer.png";
-  service.textSearch(request, callback);
-}
+//var iconTypeBars;
+//var iconTypeBreweries;
 
-function findBreweries() {
-  var request = {
-    location: currentLocation,
-    radius: "5000",
-    query: "brewery",
-  }
-  iconType = "assets/images/brewery.png";
-  service.textSearch(request, callback);
-}
+ 
 
-// var service = new google.maps.places.PlacesService(map);
-// service.textSearch(request, callback);
-// service.textSearch(request2, callback);
+//var service = new google.maps.places.PlacesService(map);
+//service.textSearch(request, callback);
+//service.textSearch(request2, callback);
 
 
 //Creating bar markers
+
 function callback(results, status) {
-  console.log("results array?" + results);
   
-  if (status === google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
-      console.log(results[i].name);
-      $("#bar-container").append(`<div id="${results[i].name}"><p>${results[i].name}</p></div>`);
-    }
-  }
 }
-function createMarker(place) {
-  //getting object info___________________
-  console.log(place);
-  //_______________________________
- 
-  var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location,
-    icon: iconType,
-  });
-  
-  
-   
-  
-  google.maps.event.addListener(marker, 'click', function () {
-    infoWindow.setContent(place.name);
-    infoWindow.open(map, this);
-  });
-}
+
 //take these bars and display in html, each with own div (this will also display rating for each bar)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
 //will want to take ratings into firebase, average them, and output the average to the html
