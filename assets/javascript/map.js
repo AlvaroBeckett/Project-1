@@ -111,22 +111,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
   infoWindow.open(map);
 }
 
-//not working because working asynchronously
-//var iconTypeBars;
-//var iconTypeBreweries;
-
- 
-
-//var service = new google.maps.places.PlacesService(map);
-//service.textSearch(request, callback);
-//service.textSearch(request2, callback);
-
-
-//Creating bar markers
-
-function callback(results, status) {
-  
-}
 
 //take these bars and display in html, each with own div (this will also display rating for each bar)
 // for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
