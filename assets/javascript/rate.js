@@ -1,32 +1,23 @@
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyBOBuTY5eVKNK1z9PEsQyXeiI6-Lemj_TA",
-//     authDomain: "project-1-727b9.firebaseapp.com",
-//     databaseURL: "https://project-1-727b9.firebaseio.com",
-//     projectId: "project-1-727b9",
-//     storageBucket: "project-1-727b9.appspot.com",
-//     messagingSenderId: "275641339042"
-//   };
-//   firebase.initializeApp(config);
 
 var database = firebase.database();
-
+database.ref().once("value").then(function(snapshot) {
+    console.log(snapshot);
+});
+barName = "bar1";
 //pull bar name, if it exists add to rating else create new rating
 //+++++++++++++++++++++++++++++
 //Display on page; displays for every child and then when new child added
-
-var databaseBars = firebase.database.ref("bars");
-console.log(databaseBars);
+// console.log(database.ref());
 
 database.ref().on("child_added", function (childSnapshot, prevChildKey) {
     //static variables
     var barName = childSnapshot.val();
 
      if (barName = $("#bar-name").val()) {
-         console.log("match");
+        //  console.log("match");
      }
      else {
-         console.log("no match")
+        //  console.log("no match")
      }
     });
 
