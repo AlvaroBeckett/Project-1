@@ -34,6 +34,11 @@ for (var i = 0; i < ratings.length; i++) {
             </div>`);
     }
 }
+$("form").append(
+    `<div class="form-group">
+		<button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
+	</div>`
+);
 
 var database = firebase.database();
 database.ref().on("value", function(snapshot) {
