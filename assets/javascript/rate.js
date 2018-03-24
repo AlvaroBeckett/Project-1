@@ -1,6 +1,40 @@
 
 barName = "bar1";
 
+var ratings =[
+    {question: "Guy/Girl Ratio",
+    answerChoices: ["More Guys", "More Girls", "EqualRatio"],
+    },
+    {question: "Atmosphere",
+    answerChoices: ["Dead", "Chill", "Interactive", "Party"],
+    },
+    {question: "Cleanliness",
+    answerChoices: ["Gross", "Eh...", "Clean"],
+    },
+];
+
+//displaying questions and answer choices
+//display question
+for (var i = 0; i < ratings.length; i++) {
+    console.log("ratings length " + ratings.length);
+    $("form").append(
+        `<div id="rating${i}" class="form-group">
+        <label class="control-label">${ratings[i].question}</label>
+        </div>`);
+    //display rating options
+    for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+        console.log("answer choices length " + ratings[i].answerChoices.length);
+        console.log(i);
+        $(`#rating${i}`).append(
+            `<div class="radio">
+            <label>
+            <input type="radio" name="${ratings[i].question}" value="${ratings[i].answerChoices[j]}">
+             ${ratings[i].answerChoices[j]}
+            </label>
+            </div>`);
+    }
+}
+
 var database = firebase.database();
 database.ref().on("value", function(snapshot) {
     console.log(snapshot.val());
@@ -8,24 +42,6 @@ database.ref().on("value", function(snapshot) {
         console.log(child.key+": "+child.val());
       });
 });
-//pull bar name, if it exists add to rating else create new rating
-//+++++++++++++++++++++++++++++
-//Display on page; displays for every child and then when new child added
-// console.log(database.ref());
-
-// database.ref().on("child_added", function (childSnapshot, prevChildKey) {
-//     //static variables
-//     var barName = childSnapshot.val();
-
-//      if (barName = $("#bar-name").val()) {
-//         //  console.log("match");
-//      }
-//      else {
-//         //  console.log("no match")
-//      }
-//     });
-
-//++++++++++++++++++++++++++
 
 var storedR1;
 var storedR2;
