@@ -1,25 +1,29 @@
 
-var database = firebase.database();
-database.ref().once("value").then(function(snapshot) {
-    console.log(snapshot);
-});
 barName = "bar1";
+
+var database = firebase.database();
+database.ref().on("value", function(snapshot) {
+    console.log(snapshot.val());
+    snapshot.forEach(function(child) {
+        console.log(child.key+": "+child.val());
+      });
+});
 //pull bar name, if it exists add to rating else create new rating
 //+++++++++++++++++++++++++++++
 //Display on page; displays for every child and then when new child added
 // console.log(database.ref());
 
-database.ref().on("child_added", function (childSnapshot, prevChildKey) {
-    //static variables
-    var barName = childSnapshot.val();
+// database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+//     //static variables
+//     var barName = childSnapshot.val();
 
-     if (barName = $("#bar-name").val()) {
-        //  console.log("match");
-     }
-     else {
-        //  console.log("no match")
-     }
-    });
+//      if (barName = $("#bar-name").val()) {
+//         //  console.log("match");
+//      }
+//      else {
+//         //  console.log("no match")
+//      }
+//     });
 
 //++++++++++++++++++++++++++
 

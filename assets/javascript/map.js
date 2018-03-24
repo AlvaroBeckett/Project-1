@@ -1,22 +1,25 @@
 // Initialize Firebase
-// var config = {
-//   apiKey: "AIzaSyBOBuTY5eVKNK1z9PEsQyXeiI6-Lemj_TA",
-//   authDomain: "project-1-727b9.firebaseapp.com",
-//   databaseURL: "https://project-1-727b9.firebaseio.com",
-//   projectId: "project-1-727b9",
-//   storageBucket: "project-1-727b9.appspot.com",
-//   messagingSenderId: "275641339042"
-// };
+//This is Julia's
 var config = {
-  apiKey: "AIzaSyBmdyo7rT8OHlIIapaqpLU6irujKCi1Z-k",
-  authDomain: "project-1-b3e7e.firebaseapp.com",
-  databaseURL: "https://project-1-b3e7e.firebaseio.com",
-  projectId: "project-1-b3e7e",
-  storageBucket: "project-1-b3e7e.appspot.com",
-  messagingSenderId: "48007011983"
+  apiKey: "AIzaSyBOBuTY5eVKNK1z9PEsQyXeiI6-Lemj_TA",
+  authDomain: "project-1-727b9.firebaseapp.com",
+  databaseURL: "https://project-1-727b9.firebaseio.com",
+  projectId: "project-1-727b9",
+  storageBucket: "project-1-727b9.appspot.com",
+  messagingSenderId: "275641339042"
 };
+//this is Justin's
+// var config = {
+//   apiKey: "AIzaSyBmdyo7rT8OHlIIapaqpLU6irujKCi1Z-k",
+//   authDomain: "project-1-b3e7e.firebaseapp.com",
+//   databaseURL: "https://project-1-b3e7e.firebaseio.com",
+//   projectId: "project-1-b3e7e",
+//   storageBucket: "project-1-b3e7e.appspot.com",
+//   messagingSenderId: "48007011983"
+// };
 firebase.initializeApp(config);
 var database = firebase.database();
+
 var barName = "";
 var moreGirls = 0;
 var moreDudes = 0;
