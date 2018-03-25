@@ -140,6 +140,7 @@ function initMap() {
 var modal = $("#myModal");
 console.log (modal);
 $(".rate").on("click", function() {
+    $("#myModal").css("display", "block");
 });
 
 
