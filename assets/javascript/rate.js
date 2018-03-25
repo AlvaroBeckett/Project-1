@@ -1,5 +1,9 @@
 
-barName = "bar1";
+//get random bar name for testing
+var barNames = ["bar1", "bar2", "bar3"];
+var index = Math.floor(Math.random() * barNames.length);
+var bar = barNames[index];
+$("#bar-name").html(bar);
 
 var ratings =[
     {question: "Guy/Girl Ratio",
@@ -16,15 +20,12 @@ var ratings =[
 //displaying questions and answer choices
 //display question
 for (var i = 0; i < ratings.length; i++) {
-    console.log("ratings length " + ratings.length);
     $("form").append(
         `<div id="rating${i}" class="form-group">
         <label class="control-label">${ratings[i].question}</label>
         </div>`);
     //display rating options
     for (var j = 0; j < ratings[i].answerChoices.length; j++) {
-        console.log("answer choices length " + ratings[i].answerChoices.length);
-        console.log(i);
         $(`#rating${i}`).append(
             `<div class="radio">
             <label>
@@ -40,6 +41,7 @@ $("form").append(
 	</div>`
 );
 
+//Getting new rating into firebase
 var database = firebase.database();
 database.ref().on("value", function(snapshot) {
     console.log(snapshot.val());
@@ -48,18 +50,19 @@ database.ref().on("value", function(snapshot) {
       });
 });
 
-var storedR1;
-var storedR2;
-var storedR3;
-var numberRatings;
-var lastRated;
-
 $("#submit").on("click", function (event) {
     event.preventDefault();
 
-    var r1 = $("#r1").val();
-    var r2 = $("#r2").val();
-    var r3 = $("#r3").val();
+    //Grab selections
+    for (var i = 0; i < ratings.length; i++) {   
+    console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
+    //grab answer choices
+    for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+
+    
+    }
+    }
+
 
     var newR1 = r1; //(r1 + storedR1)/numberRatings;
     var newR2 = r2;//(r2 + storedR2)/numberRatings;
@@ -83,3 +86,17 @@ $("#submit").on("click", function (event) {
 
 
 });
+
+
+
+
+// $(document).on("click", ".form-check-input", function() {
+  
+//     // Check all the answers and tally correct & incorrect
+//     var index = $(this).attr("name");
+  
+//     if($(this).attr("value") == triviaQuestions[index].answer){
+//       correctAnswer++;
+//     } else if($(this).attr("value") !== triviaQuestions[index].answer) {
+//       incorrectAnswer++;
+//     }
