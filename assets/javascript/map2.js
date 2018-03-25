@@ -94,6 +94,7 @@ function initMap() {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 for (var i = 0; i < results.length; i++) {
                     createMarker(results[i], icon);
+                    console.log(results[i]);
                     var placeID = results[i].place_id;
                     var request = {
                         placeId: placeID
@@ -102,7 +103,7 @@ function initMap() {
                     service.getDetails(request, callback)
                     function callback(place, status) {
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
-                            console.log("place id2 " + place.place_id);
+                            console.log("place id " + place.place_id);
                             console.log("price " + place.price_level);
                             console.log("open? " + place.opening_hours.open_now);///can use this to only display what's open now too
                             $(".bar-quick-view").append(
@@ -112,7 +113,7 @@ function initMap() {
                                     Open? | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
                                 </div>
                                 <div>
-                                <button class="rate">Rate</button>
+                                <button class="rate" data-name="${place.name} data-id=${place.place_id}">Rate</button> 
                                 </div>`
                             );
                         }
@@ -137,10 +138,64 @@ function initMap() {
     }
 }
 
-var modal = $("#myModal");
-console.log (modal);
+
+//===================== Modal Stuff
+//get random bar name for testing
+var barNames = ["bar1", "bar2", "bar3"];
+var index = Math.floor(Math.random() * barNames.length);
+var bar = barNames[index];
+$("#bar-name").html(bar);
+
+var ratings =[
+    {question: "Guy/Girl Ratio",
+    answerChoices: ["More Guys", "More Girls", "EqualRatio"],
+    },
+    {question: "Atmosphere",
+    answerChoices: ["Dead", "Chill", "Interactive", "Party"],
+    },
+    {question: "Cleanliness",
+    answerChoices: ["Gross", "Eh...", "Clean"],
+    },
+];
+
+
+///for some reaosn this is only working on the button in the html already
 $(".rate").on("click", function() {
     $("#myModal").css("display", "block");
+
+    console.log($(this).data("name"));
+    console.log($(this).data("id"));
+
+
+
+//displaying questions and answer choices
+//display question
+    for (var i = 0; i < ratings.length; i++) {
+        $("form").append(
+            `<div id="rating${i}" class="form-group">
+            <label class="control-label">${ratings[i].question}</label>
+            </div>`);
+        //display rating options
+        for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+            $(`#rating${i}`).append(
+                `<div class="radio">
+                <label>
+                <input type="radio" name="${ratings[i].question}" value="${ratings[i].answerChoices[j]}">
+                 ${ratings[i].answerChoices[j]}
+                </label>
+                </div>`);
+        }
+    }
+    $("form").append(
+        `<div class="form-group">
+            <button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
+        </div>`
+    );
+});
+
+//closing the modal
+$(".close").on ("click", function () {
+    $("#myModal").css("display", "none");
 });
 
 
