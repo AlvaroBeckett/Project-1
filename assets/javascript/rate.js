@@ -1,19 +1,33 @@
+var config = {
+    apiKey: "AIzaSyBOBuTY5eVKNK1z9PEsQyXeiI6-Lemj_TA",
+    authDomain: "project-1-727b9.firebaseapp.com",
+    databaseURL: "https://project-1-727b9.firebaseio.com",
+    projectId: "project-1-727b9",
+    storageBucket: "project-1-727b9.appspot.com",
+    messagingSenderId: "275641339042"
+};
 
+firebase.initializeApp(config);
 //get random bar name for testing
 var barNames = ["bar1", "bar2", "bar3"];
 var index = Math.floor(Math.random() * barNames.length);
-var bar = barNames[index];
-$("#bar-name").html(bar);
+var barName = barNames[index];
+var placeID = barName + "id";
 
-var ratings =[
-    {question: "Guy/Girl Ratio",
-    answerChoices: ["More Guys", "More Girls", "EqualRatio"],
+$("#bar-name").html(barName);
+
+var ratings = [
+    {
+        question: "Guy/Girl Ratio",
+        answerChoices: ["More Guys", "More Girls", "EqualRatio"],
     },
-    {question: "Atmosphere",
-    answerChoices: ["Dead", "Chill", "Interactive", "Party"],
+    {
+        question: "Atmosphere",
+        answerChoices: ["Dead", "Chill", "Interactive", "Party"],
     },
-    {question: "Cleanliness",
-    answerChoices: ["Gross", "Eh...", "Clean"],
+    {
+        question: "Cleanliness",
+        answerChoices: ["Gross", "Eh...", "Clean"],
     },
 ];
 
@@ -43,60 +57,61 @@ $("form").append(
 
 //Getting new rating into firebase
 var database = firebase.database();
-database.ref().on("value", function(snapshot) {
-    console.log(snapshot.val());
-    snapshot.forEach(function(child) {
-        console.log(child.key+": "+child.val());
-      });
+database.ref().on("value", function (snapshot) {
+    console.log("snapshot" + snapshot.val());
+    snapshot.forEach(function (child) {
+        console.log( "key:" + child.key + ": " + "child" + child);
+        child.forEach( function (child) {
+            console.log(child.val());
+;        });
+    });
 });
 
 $("#submit").on("click", function (event) {
     event.preventDefault();
 
+    // if new bar, create setup, else just push to the specific counter
+
+
     //Grab selections
-    for (var i = 0; i < ratings.length; i++) {   
-    console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
-    //grab answer choices
-    for (var j = 0; j < ratings[i].answerChoices.length; j++) {
-
-    
-    }
+    for (var i = 0; i < ratings.length; i++) {
+        console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
+        //grab answer choices
+        for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+        }
     }
 
+    var ratings =[
+        {question: "Guy/Girl Ratio",
+        answerChoices: ["More Guys", "More Gals", "Equal Ratio"],
+        },
+        {question: "Atmosphere",
+        answerChoices: ["Dead", "Chill", "Inviting", "Epic"],
+        },
+        {question: "Cleanliness",
+        answerChoices: ["Gross", "Eh...", "Clean"],
+        },
+    ];
 
-    var newR1 = r1; //(r1 + storedR1)/numberRatings;
-    var newR2 = r2;//(r2 + storedR2)/numberRatings;
-    var newR3 = r3;//(r3 + storedR3)/numberRatings;
-
+    var newR1 = 1;
+    var newR2 = 2;
+    var newR3 = 3;
     var newRating = {
-        name: $("#bar-name").val(),
-        R1: newR1,
-        R2: newR2,
-        R3: newR3, //add timestamp?
+        [placeID]: {name: barName,
+            R1: {moreGuys: 0, moreGals: 0, EqualRatio: 0},
+            R2: {Dead: 0, Chill: 0, Inviting: 0, Epic: 0},
+            R3: {Gross: 0, "Eh...": 0, Clean: 0}}
     };
 
     console.log(newRating)
     database.ref().push(newRating);
+   
+    
+    
     //clear inputs
     $("input").val("");
 
     $("#r1avg").empty().html(newR1);
     $("#r2avg").empty().html(newR2);
     $("#r3avg").empty().html(newR3);
-
-
 });
-
-
-
-
-// $(document).on("click", ".form-check-input", function() {
-  
-//     // Check all the answers and tally correct & incorrect
-//     var index = $(this).attr("name");
-  
-//     if($(this).attr("value") == triviaQuestions[index].answer){
-//       correctAnswer++;
-//     } else if($(this).attr("value") !== triviaQuestions[index].answer) {
-//       incorrectAnswer++;
-//     }
