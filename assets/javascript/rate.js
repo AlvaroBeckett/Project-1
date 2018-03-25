@@ -1,40 +1,68 @@
 
+//get random bar name for testing
+var barNames = ["bar1", "bar2", "bar3"];
+var index = Math.floor(Math.random() * barNames.length);
+var bar = barNames[index];
+$("#bar-name").html(bar);
+
+var ratings =[
+    {question: "Guy/Girl Ratio",
+    answerChoices: ["More Guys", "More Girls", "EqualRatio"],
+    },
+    {question: "Atmosphere",
+    answerChoices: ["Dead", "Chill", "Interactive", "Party"],
+    },
+    {question: "Cleanliness",
+    answerChoices: ["Gross", "Eh...", "Clean"],
+    },
+];
+
+//displaying questions and answer choices
+//display question
+for (var i = 0; i < ratings.length; i++) {
+    $("form").append(
+        `<div id="rating${i}" class="form-group">
+        <label class="control-label">${ratings[i].question}</label>
+        </div>`);
+    //display rating options
+    for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+        $(`#rating${i}`).append(
+            `<div class="radio">
+            <label>
+            <input type="radio" name="${ratings[i].question}" value="${ratings[i].answerChoices[j]}">
+             ${ratings[i].answerChoices[j]}
+            </label>
+            </div>`);
+    }
+}
+$("form").append(
+    `<div class="form-group">
+		<button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
+	</div>`
+);
+
+//Getting new rating into firebase
 var database = firebase.database();
-database.ref().once("value").then(function(snapshot) {
-    console.log(snapshot);
+database.ref().on("value", function(snapshot) {
+    console.log(snapshot.val());
+    snapshot.forEach(function(child) {
+        console.log(child.key+": "+child.val());
+      });
 });
-barName = "bar1";
-//pull bar name, if it exists add to rating else create new rating
-//+++++++++++++++++++++++++++++
-//Display on page; displays for every child and then when new child added
-// console.log(database.ref());
-
-database.ref().on("child_added", function (childSnapshot, prevChildKey) {
-    //static variables
-    var barName = childSnapshot.val();
-
-     if (barName = $("#bar-name").val()) {
-        //  console.log("match");
-     }
-     else {
-        //  console.log("no match")
-     }
-    });
-
-//++++++++++++++++++++++++++
-
-var storedR1;
-var storedR2;
-var storedR3;
-var numberRatings;
-var lastRated;
 
 $("#submit").on("click", function (event) {
     event.preventDefault();
 
-    var r1 = $("#r1").val();
-    var r2 = $("#r2").val();
-    var r3 = $("#r3").val();
+    //Grab selections
+    for (var i = 0; i < ratings.length; i++) {   
+    console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
+    //grab answer choices
+    for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+
+    
+    }
+    }
+
 
     var newR1 = r1; //(r1 + storedR1)/numberRatings;
     var newR2 = r2;//(r2 + storedR2)/numberRatings;
@@ -58,3 +86,17 @@ $("#submit").on("click", function (event) {
 
 
 });
+
+
+
+
+// $(document).on("click", ".form-check-input", function() {
+  
+//     // Check all the answers and tally correct & incorrect
+//     var index = $(this).attr("name");
+  
+//     if($(this).attr("value") == triviaQuestions[index].answer){
+//       correctAnswer++;
+//     } else if($(this).attr("value") !== triviaQuestions[index].answer) {
+//       incorrectAnswer++;
+//     }
