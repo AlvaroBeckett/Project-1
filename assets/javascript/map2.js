@@ -20,9 +20,12 @@ var config = {
 
 firebase.initializeApp(config);
 
+
+
+
 var map;
 var infoWindow;
-//var currentLocation;
+
 
 //get map and display current location, being called in html
 function initMap() {
@@ -150,6 +153,8 @@ var ratings =[
     },
 ];
 
+
+///when clicking rate button, open the modal
 $(document).on("click",".rate", function(){
     $("#myModal").css("display", "block");
     var barName = $(this).data("name");
@@ -159,6 +164,9 @@ $(document).on("click",".rate", function(){
     $("form").empty();
     $("#bar-name").html(barName);
 
+
+$("form").empty();
+$("#bar-name").html($(this).data("name"));
 //displaying questions and answer choices
 //display question
     for (var i = 0; i < ratings.length; i++) {
@@ -190,49 +198,53 @@ $(".close").on ("click", function () {
 });
 
 
-
-
-
 //++++++++++++++++++++++++++++++++++++++
 //Getting new rating into firebase
 var database = firebase.database();
 database.ref().on("value", function(snapshot) {
-    console.log(snapshot.val());
-    snapshot.forEach(function(child) {
-        console.log(child.key+": "+ child.val());
-      });
+   console.log(snapshot.val());
+   snapshot.forEach(function(child) {
+       
+       child.forEach(function (child){
+        console.log(child+": "+child.val());
+           
+    })
+     });
 });
 
 $("#submit").on("click", function (event) {
-    event.preventDefault();
+   event.preventDefault();
 
-    //Grab selections
-    for (var i = 0; i < ratings.length; i++) {
-        console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
-        //grab answer choices
-        for (var j = 0; j < ratings[i].answerChoices.length; j++) {
-        }
-    }
+   //Grab selections
+   for (var i = 0; i < ratings.length; i++) {  
+   console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
+   //grab answer choices
+   for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+
+   
+   }
+   }
 
 
-    var newR1 = r1; //(r1 + storedR1)/numberRatings;
-    var newR2 = r2;//(r2 + storedR2)/numberRatings;
-    var newR3 = r3;//(r3 + storedR3)/numberRatings;
+   var newR1 = r1; //(r1 + storedR1)/numberRatings;
+   var newR2 = r2;//(r2 + storedR2)/numberRatings;
+   var newR3 = r3;//(r3 + storedR3)/numberRatings;
 
-    var newRating = {
-        name: $("#bar-name").val(),
-        R1: newR1,
-        R2: newR2,
-        R3: newR3, //add timestamp?
-    };
+   var newRating = {
+       name: $("#bar-name").val(),
+       R1: newR1,
+       R2: newR2,
+       R3: newR3, //add timestamp?
+   };
 
-    console.log(newRating)
-    database.ref().push(newRating);
-    //clear inputs
-    $("input").val("");
+   console.log(newRating)
+   database.ref().push(newRating);
+   //clear inputs
+   $("input").val("");
 
-    $("#r1avg").empty().html(newR1);
-    $("#r2avg").empty().html(newR2);
-    $("#r3avg").empty().html(newR3);
+   $("#r1avg").empty().html(newR1);
+   $("#r2avg").empty().html(newR2);
+   $("#r3avg").empty().html(newR3);
+
+
 });
-
