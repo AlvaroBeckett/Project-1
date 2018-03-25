@@ -93,116 +93,113 @@ function initMap() {
                           </div>                          
                       </div>
                   </div>
-              </div>`);
-              
-              
-        }
-        var girlCount = 0;
-        var dudeCount = 0;
-              $("button").click(function(){
-                barName = $(this).val();
-                moreGirls = 0;
-                modalPop.css("display", "block");
-                if ($(this).text() == "More Girls"){
-                girlCount+=1;
-                console.log($(this).val());
-                console.log("Girls: " + girlCount);
-                }
-                if ($(this).text() == "More Dudes"){
-                  console.log($(this).val());
-                  dudeCount+=1;
-                  console.log("Dudes: " + dudeCount);
-                }
-                database.ref().push({
-                  barName: barName,
-                  moreGirls: girlCount,
-                  moreDudes: dudeCount
-                })
-              });
-
-              $('span').click(function(){
-                modalPop.css("display", "none");
-              })
-
-      }
-    };
-  }
-
-  function findPlaces(service, location, query, icon) {
-    var request = {
-      location: location,
-      radius: '5000',
-      query: query,
-      icon: icon,
-    };
-  
-    service.textSearch(request, placesCallback(icon));
-  }
-  
-  infoWindow = new google.maps.InfoWindow();
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      currentLocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      infoWindow.setPosition(currentLocation);
-      infoWindow.setContent('You are here');
-      infoWindow.open(map);
-      map.setCenter(currentLocation);
-      
-      var service = new google.maps.places.PlacesService(map);
-      //  findBars(service, currentLocation);
-      //  findBreweries(service, currentLocation);
-      findPlaces(service, currentLocation, 'bar', 'assets/images/beer.png');
-      findPlaces(service, currentLocation, 'brewery', 'assets/images/brewery.png');
-    
-      //service = new google.maps.places.PlacesService(map);
-      //service.nearbySearch(request, callback);
-    
-
-      //geolocation available, but error
-    }, function () {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  }
-  //geolocation not available
-  else {
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-  
-}
-
-//Handling errors if geolocation not available
-function handleLocationError(browserHasGeolocation, infoWindow, currentLocation) {
-  infoWindow.setPosition(currentLocation);
-  infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-  infoWindow.open(map);
-}
-
-//not working because working asynchronously
-//var iconTypeBars;
-//var iconTypeBreweries;
-
- 
-
-//var service = new google.maps.places.PlacesService(map);
-//service.textSearch(request, callback);
-//service.textSearch(request2, callback);
-
-
-//Creating bar markers
-
-function callback(results, status) {
-  
-}
-
-
-
-//take these bars and display in html, each with own div (this will also display rating for each bar)
-// for each marker visible, add div with it's name and then the rating (grabbing name, other stuff we create)
-//will want to take ratings into firebase, average them, and output the average to the html
-
-//===================================================
+    <div class="container-fluid text-center">
+        <header class="full-width">
+            <nav>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 logo"><img src="assets/images/logo.png"></div>
+                    
+                </div>
+            </nav>
+        </header>
+    </div>
+    <div class="container">
+        <div class="row quick-view">
+            <div class="col-lg-6 col-sm-12 map-control" id="map">
+                <!-- <div id="map"></div>  had multiple id tags of sme thing-->
+            </div>
+            <div class="col-lg-5 col-sm-12 bar-quick-view">
+                <div class="row barSection text-center">
+                    <div class="col-lg-3 col-sm-3" id="bar-pic"></div>
+                    <div class="col-lg-8 col-sm-8">
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2"></div>
+                            <div class="col-lg-6 col-sm-6 text-center">
+                                <h3 id="barName">Hello</h3></div>
+                            <div class="col-lg-4 col-sm-4"><i class="fas fa-dollar-sign cost"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                            </div>
+                            <div class="col-lg-3 col-sm-3" id="openBarInfo">
+                                <button>Open</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row barSection text-center">
+                    <div class="col-lg-3 col-sm-3" id="bar-pic"></div>
+                    <div class="col-lg-8 col-sm-8">
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2"></div>
+                            <div class="col-lg-6 col-sm-6 text-center">
+                                <h3 id="barName">Hello</h3></div>
+                            <div class="col-lg-4 col-sm-4"><i class="fas fa-dollar-sign cost"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                            </div>
+                            <div class="col-lg-3 col-sm-3" id="openBarInfo">
+                                <button>Open</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row barSection text-center">
+                    <div class="col-lg-3 col-sm-3" id="bar-pic"></div>
+                    <div class="col-lg-8 col-sm-8">
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2"></div>
+                            <div class="col-lg-6 col-sm-6 text-center">
+                                <h3 id="barName">Hello</h3></div>
+                            <div class="col-lg-4 col-sm-4"><i class="fas fa-dollar-sign cost"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+                            <div class="col-lg-3 col-sm-3" id="bar-status"><i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                            </div>
+                            <div class="col-lg-3 col-sm-3" id="openBarInfo">
+                                <button>Open</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-lg-12 col-sm-12">
+                        <i class="fas fa-angle-double-down fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>  
+   <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+        <script src="assets/javascript/map.js"></script>
+        <!-- Google Maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFjokBeMIo4mkf81PUPUIQ4W72LzO30v8&callback=initMap&libraries=places" async defer></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                  <script>
+                        function openLeftMenu() {
+                            document.getElementById("leftMenu").style.display = "block";
+                        }
+                        function closeLeftMenu() {
+                            document.getElementById("leftMenu").style.display = "none";
+                        }
+                        
+                        function openRightMenu() {
+                            document.getElementById("rightMenu").style.display = "block";
+                        }
+                        function closeRightMenu() {
+                            document.getElementById("rightMenu").style.display = "none";
+                        }
+                        </script>
+    </body>
+</html>
