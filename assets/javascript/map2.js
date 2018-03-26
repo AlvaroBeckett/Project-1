@@ -153,13 +153,12 @@ var ratings =[
     },
 ];
 
-
-///when clicking rate button, open the modal
+//when rate clicked, will show modal and grabs the bar name and id
 $(document).on("click",".rate", function(){
     $("#myModal").css("display", "block");
     var barName = $(this).data("name");
     var placeID = $(this).data("id");
-    console.log("should be id: " + placeID);
+    console.log("id: " + placeID);
 
     $("form").empty();
     $("#bar-name").html(barName);
@@ -190,6 +189,34 @@ $("#bar-name").html($(this).data("name"));
             <button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
         </div>`
     );
+});
+
+$("#submit").on("click", function (event) {
+    event.preventDefault();
+
+//*** need to do something where it can look at database and if the placeid is in there it will update the ratings (all counters) 
+//if not then it will creat the setup.
+//and then it will update the counter with the input
+//then run thorough each category and find counter with most-> that's what should be display as " current" rating
+
+
+    //creates a rating setup and add its to database with the place id as the id
+    var newRating = {
+        name: barName,
+        R1: { moreGuys: 0, moreGals: 0, EqualRatio: 0 },
+        R2: { Dead: 0, Chill: 0, Inviting: 0, Epic: 0 },
+        R3: { Gross: 0, Eh: 0, Clean: 0 }
+    };
+    console.log("new rating " + newRating)
+    database.ref().child(placeID).set(newRating);
+
+     //Grab selections (not currently working but it was)
+     for (var i = 0; i < ratings.length; i++) {
+        console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
+        //grab answer choices
+        for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+        }
+    }
 });
 
 //closing the modal
