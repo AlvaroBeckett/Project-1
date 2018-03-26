@@ -59,41 +59,66 @@ $("form").append(
 );
 
 
-// getting snapshot of database
-database.ref().on("value", function (snapshot) {
-    //gets the unique key
-    snapshot.forEach(function (placeId) {
-        //prints once for each child of whole database (pace Ids)
-        console.log( "place ID:" + placeId.key);
-        if (placeID === placeId.key) {
-            console.log ("match");
-        }
-        placeId.forEach( function (child) {
-            //prints out once for each child of the key(rotation through)
-            console.log("child" + child.val());
-            if(child.key === placeID) {
-                console.log("they match");
-            };
-        });
-    });
+
+database.ref().once("value", snapshot => {
+    const place = snapshot.val();
+    console.log("wait");
+    if (placeID === place){
+        console.log("user exists!");
+        console.log(place);
+    }
+ });
+
+database().ref().child().orderByChild("ID").equalTo("U1EL5623").once("value",snapshot => {
+    const userData = snapshot.val();
+    if (userData){
+      console.log("exists!");
+    }
 });
 
 $("#submit").on("click", function (event) {
     event.preventDefault();
 
-    // if new bar, create setup, else just push to the specific counter
- 
-    var newRating = {
-        name: barName,
-        R1: {moreGuys: 0, moreGals: 0, EqualRatio: 0},
-        R2: {Dead: 0, Chill: 0, Inviting: 0, Epic: 0},
-        R3: {Gross: 0, Eh: 0, Clean: 0}
-    };
+    // getting snapshot of database
+    database.ref().on("value", function (snapshot) {
+        //gets the unique key
+        snapshot.forEach(function (placeId) {
+            //prints once for each child of whole database (pace Ids)
+            console.log("place ID:" + placeId.key);
+            // if place already rated, just want ot update rating, otherwise will want to setup and then update
+            if (placeID === placeId.key) {
+                console.log("match");
+                update();
+            }
+            else {
+                console.log("make new");
+                var newRating = {
+                    name: barName,
+                    R1: { moreGuys: 0, moreGals: 0, EqualRatio: 0 },
+                    R2: { Dead: 0, Chill: 0, Inviting: 0, Epic: 0 },
+                    R3: { Gross: 0, Eh: 0, Clean: 0 }
+                };
 
-    console.log("rew rating " + newRating)
-    database.ref().child(placeID).set(newRating);
-  
+                console.log("new rating " + newRating)
+                database.ref().child(placeID).set(newRating);
+                update();
+            }
+            // placeId.forEach( function (child) {
+            //prints out once for each child of the key(rotation through)
+            // console.log("child" + child.val());
+            // if(child.key === placeID) {
+            //     console.log("they match");
+            // };
+        });
+    });
+    //clear inputs
+    $("input").val("");
 });
+
+
+function update() {
+    console.log("updated");
+
     //Grab selections
     for (var i = 0; i < ratings.length; i++) {
         console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
@@ -101,11 +126,8 @@ $("#submit").on("click", function (event) {
         for (var j = 0; j < ratings[i].answerChoices.length; j++) {
         }
     }
-    
-    //clear inputs
-    $("input").val("");
+}
 
-    $("#r1avg").empty()
-    $("#r2avg").empty()
-    $("#r3avg").empty()
+
+
 
