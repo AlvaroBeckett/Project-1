@@ -24,6 +24,7 @@ $(".bar-quick-view").empty();
 var map;
 var infoWindow;
 var currentLocation;
+var counter =0;
 
 //get map and display current location, being called in html
 function initMap() {
@@ -126,18 +127,19 @@ function initMap() {
 
 
                 }
-
+                
                 var GalCount = 0;
                 var GuyCount = 0;
                 $('button').click(function() {
 
                     barName = $(this).val().trim();
-                  
+                    counter += 1;
                     moreGals = 0;
-
-                    console.log("Bar: " + barName);
-                    if($(this).text()=="Edit Info"){
+                    
+                    console.log(counter);
+                    if($(this).text()=="Edit Info"&& counter%2==0){
                     modalPop.css("display", "block");
+                    console.log("Bar: " + barName);
                     }
 
                     if ($(this).text()=="Submit") {
@@ -152,11 +154,11 @@ function initMap() {
                     // if($this).text(){};
                     // if($this).text(){};
                     // if($this).text(){};
-                    database.ref().push({
-                        barName: barName,
-                        moreGals: GalCount,
-                        moreGuys: GuyCount
-                    })
+                   database.ref().push({
+                       barName: barName,
+                       moreGals: GalCount,
+                       moreGuys: GuyCount
+                   })
                 });
 
                 $('span').click(function() {
@@ -164,7 +166,14 @@ function initMap() {
                 })
 
             }
+            
         };
+        $("button").click(function(){
+            var barNAME = $(this).val();
+            console.log("Trying: " + barNAME);
+
+        })
+
     }
 
     function findPlaces(service, location, query, icon) {
@@ -195,7 +204,7 @@ function initMap() {
             //  findBreweries(service, currentLocation);
             findPlaces(service, currentLocation, 'bar', 'assets/images/beer.png');
             findPlaces(service, currentLocation, 'brewery', 'assets/images/brewery.png');
-
+            
             //service = new google.maps.places.PlacesService(map);
             //service.nearbySearch(request, callback);
 
@@ -235,9 +244,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentLocation)
 //Creating bar markers
 
 function callback(results, status) {
+    
 
 }
-
 
 
 //take these bars and display in html, each with own div (this will also display rating for each bar)
