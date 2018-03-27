@@ -88,12 +88,14 @@ function initMap() {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 for (var i = 0; i < results.length; i++) {
                     createMarker(results[i], icon);
-                    console.log(results[i]);
+                    // console.log(results[i]); //logs each place (object)
                     var placeID = results[i].place_id;
                     var request = {
                         placeId: placeID
                     };
-                    //getting place details
+                    //getting place details- looks like this may be redundant bc info is in the results[i], 
+                    //but google api made it seem like this needed to be called additionally - it does provide additional info like rating
+                    // that could be used
                     service = new google.maps.places.PlacesService(map);
                     service.getDetails(request, callback)
                     function callback(place, status) {
@@ -143,7 +145,7 @@ function initMap() {
 var ratings = [
     {
         question: "Guy to Girl Ratio",
-        answerChoices: ["More Guys", "More Girls", "Equal Ratio"],
+        answerChoices: ["More Guys", "More Gals", "Equal Ratio"],
     },
     {
         question: "Atmosphere",
@@ -194,11 +196,10 @@ $(document).on("click", ".rate", function () {
 
 
     //check to see if placeID is in database
-    database.ref(placeID).on("value", function (snap) {
+    database.ref(placeID).once("value", function (snap) {
         var snapshot = snap.val()
         //if it's not in the database, add a blank rating setup
         if (snapshot === null) {
-            console.log("not here");
             var q1 = ratings[0];
             //this could be better, but for now setting up object literally instead of using ratings object
             var newRating = {
@@ -207,9 +208,10 @@ $(document).on("click", ".rate", function () {
                 "Atmosphere": { "Dead": 0, "Chill": 0, "Inviting": 0, "Epic": 0 },
                 "Cleanliness": { "Gross": 0, "Eh": 0, "Clean": 0 }
             };
-            console.log("new rating " + newRating)
+            console.log("setup " + newRating)
             database.ref().child(placeID).set(newRating);
         }
+        //if in database, show what current ratings are (this can be deleted)
         else {
             console.log(snap.val());
         }
@@ -218,12 +220,12 @@ $(document).on("click", ".rate", function () {
 
     $("#submit").on("click", function (event) {
         event.preventDefault();
-        //Grab selections
-        for (var i = 0; i < ratings.length; i++) {
+        //Grab selections... for Each rather tahn for loop deals with asynchronous issue
+            ratings.forEach(function(rating){
 
             //grab question name and selection
-            var questionName = ratings[i].question;
-            var selected = $(`input:radio[name="${ratings[i].question}"]:checked`).val()
+            var questionName = rating.question;
+            var selected = $(`input:radio[name="${rating.question}"]:checked`).val();
 
             //update rating for each rating question
             database.ref(placeID).once("value", function (snap) {
@@ -232,7 +234,7 @@ $(document).on("click", ".rate", function () {
                 currentValue++;
                 database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
             });
-        }
+        });
         //closes modal without refreshing page
         $(".close").click();
     });
