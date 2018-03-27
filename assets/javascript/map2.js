@@ -200,6 +200,7 @@ $(document).on("click", ".rate", function () {
         if (snapshot === null) {
             console.log("not here");
             var q1 = ratings[0];
+            //this could be better, but for now setting up object literally instead of using ratings object
             var newRating = {
                 name: barName,
                 "Guy to Girl Ratio": { "More Guys": 0, "More Gals": 0, "Equal Ratio": 0 },
@@ -216,9 +217,7 @@ $(document).on("click", ".rate", function () {
 
 
     $("#submit").on("click", function (event) {
-       
-console.log ("hey");
-
+        event.preventDefault();
         //Grab selections
         for (var i = 0; i < ratings.length; i++) {
 
@@ -234,11 +233,12 @@ console.log ("hey");
                 database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
             });
         }
+        //closes modal without refreshing page
+        $(".close").click();
     });
 
     //closing the modal
     $(".close").on("click", function () {
         $("#myModal").css("display", "none");
     });
-
 });

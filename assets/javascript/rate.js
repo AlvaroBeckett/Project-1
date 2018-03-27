@@ -107,19 +107,3 @@ $("#submit").on("click", function (event) {
     $("input").val("");
 });
 
-
-
-
-
-//Code Below can grab particular parts of the objects in the database
-// function barCheck(placeName){
-//     database.ref().orderByChild("dateAdded").on("child_added", function(snapshot){
-//         var sv = snapshot.val();
-//         console.log("below");
-//         console.log(sv[placeName].R1);
-//     })
-//     }
-//     console.log("function check below");
-//     var barNameChecking = "bar3id";
-//     barCheck(barNameChecking);
-
