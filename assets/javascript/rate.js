@@ -62,13 +62,11 @@ $("form").append(
 
 
 //check to see if placeID is in database
-var ratingExists;
 database.ref(placeID).on("value", function (snap) {
     var snapshot = snap.val()
     //if it's not in the database, add a blank rating setup
     if (snapshot === null) {
         console.log("not here");
-        ratingExists = false;
         var q1 = ratings[0];
         var newRating = {
             name: barName,
@@ -80,10 +78,7 @@ database.ref(placeID).on("value", function (snap) {
         database.ref().child(placeID).set(newRating);
     }
     else {
-        ratingExists = true;
         console.log(snap.val());
-        var place = snap.val();
-        console.log(place.R1);
     }
 });
 
@@ -100,48 +95,18 @@ $("#submit").on("click", function (event) {
         var questionName = ratings[i].question;
         var selected = $(`input:radio[name="${ratings[i].question}"]:checked`).val()
         
-       
-        //run through all rating choices for bar
-        // var ratingChoice ="whatever";
-        // if (selected === ratingChoice) {
-        //add 1 to rating choice counter
+        database.ref(placeID).once("value", function (snap) {
+            var snapshot = snap.val();
+            currentValue = snapshot[questionName][selected];
+            console.log ("original value" + currentValue);
+            currentValue++;
+            console.log("new value" + currentValue);
+            database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
+        });
     }
-
-    // var nRating = {
-    //     name: barName,
-    //     R0: { moreGuys: 0, "more Gals": 0, EqualRatio: 0 },
-    //     R1: { Dead: 0, Chill: 0, Inviting: 0, Epic: 0 },
-    //     R2: { Gross: 0, Eh: 0, Clean: 0 }
-    // };
-
-    // // newRating.R1.moreGuys = newRating.R1.moreGuys++;
-    // console.log(nRating);
-
-
-
-
-    // // getting snapshot of database
-    // database.ref().on("value", function (snapshot) {
-    //     //gets the unique key
-    //     snapshot.forEach(function (placeId) {
-    //         //prints once for each child of whole database (pace Ids)
-    //         console.log("place ID:" + placeId.key);
-    //         // placeId.forEach( function (child) {
-    //         //prints out once for each child of the key(rotation through)
-    //         // console.log("child" + child.val());
-    //         // if(child.key === placeID) {
-    //         //     console.log("they match");
-    //         // };
-    //     });
-    // });
-    //clear inputs
     $("input").val("");
 });
 
-
-function update() {
-    console.log("updated");
-}
 
 
 
@@ -157,15 +122,4 @@ function update() {
 //     console.log("function check below");
 //     var barNameChecking = "bar3id";
 //     barCheck(barNameChecking);
-
-
-
-// database.ref().once("value", snapshot => {
-//     const place = snapshot.val();
-//     console.log("wait");
-//     if (placeID === place){
-//         console.log("user exists!");
-//         console.log(place);
-//     }
-//  });
 
