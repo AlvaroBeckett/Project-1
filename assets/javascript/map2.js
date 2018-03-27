@@ -96,23 +96,29 @@ function initMap() {
                     var lat = results[i].geometry.location.lat();
                     var long = results[i].geometry.location.lng();
                     service = new google.maps.places.PlacesService(map);
-                    service.getDetails(request, callback)
-                    function callback(place, status) {
-                        if (status == google.maps.places.PlacesServiceStatus.OK) {
-                            console.log("place id " + place.place_id);
-                            ///can use this to only display what's open now too
-                            $(".bar-quick-view").append(
-                                `<div class="row barSection text-center">
-                            <div class="bar-name col-sm-12">${place.name}</div>
-                                <div class="col-sm-12">
-                                    Open? | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
-                                </div>
-                                </div>
+                   service.getDetails(request, callback)
+                   function callback(place, status) {
+                       if (status == google.maps.places.PlacesServiceStatus.OK) {
+                           //for displaying is open or not
+                           var isOpen = "???";
+                           if (place.opening_hours.open_now) {
+                               isOpen = "Open";
+                           }
+                           else if (place.opening_hours.open_now === false) {
+                               isOpen = "Closed";
+                           }
+                           $(".bar-quick-view").append(
+                               `<div class="row barSection text-center">
+                           <div class="bar-name col-sm-12">${place.name}</div>
+                               <div class="col-sm-12">
+                                   ${isOpen} | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
+                               </div>
+                               <div>
                                 <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                 <button class="rate" data-name="${place.name}" data-id="${place.place_id}">Rate</button>
                                 </div>
-                                <div class="col-lg-6 col-md-6 showtheway">
+                                <div class="col-lg-6 col-md-6">
                                 <a href="https://showtheway.io/to/${place.geometry.location.lat()},${place.geometry.location.lng()}"target="_blank">Directions</a>
                                 </div>
                                 </div>`
