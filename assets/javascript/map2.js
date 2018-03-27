@@ -98,6 +98,8 @@ function initMap() {
                     // that could be used
                     service = new google.maps.places.PlacesService(map);
                     service.getDetails(request, callback)
+                    console.log('Lat ' + lat);
+                    console.log('Long' + long);
                     function callback(place, status) {
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
                             //for displaying is open or not
@@ -114,8 +116,14 @@ function initMap() {
                                 <div class="col-sm-12">
                                     ${isOpen} | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
                                 </div>
-                                <div>
-                                <button class="rate" data-name="${place.name}" data-id="${place.place_id}">Rate</button> 
+                                </div>
+                                <div class="row">
+                                <div class="col-lg-6">
+                                <button class="rate" data-name="${place.name}" data-id="${place.place_id}">Rate</button>
+                                </div>
+                                <div class="col-lg-6 showtheway">
+                                <a href="https://showtheway.io/to/` + lat + `,` + long + `" target="_blank"><Directions</a>
+                                </div>
                                 </div>`
                             );
                         }
