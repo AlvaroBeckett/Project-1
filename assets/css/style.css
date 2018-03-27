@@ -60,7 +60,7 @@ header {
  font-family: 'Kavivanar', sans-serif;
 }
 .parallax {
-  background: url('../images/header1.png') no-repeat 50% 50%;
+  background: url('../images/header1.PNG') no-repeat 50% 50%;
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
