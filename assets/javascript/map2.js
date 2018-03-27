@@ -21,13 +21,6 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-
-
-
-var map;
-var infoWindow;
-
-
 //get map and display current location, being called in html
 function initMap() {
     //setting a default location and bringing up the map
@@ -100,18 +93,24 @@ function initMap() {
                     var request = {
                         placeId: placeID
                     };
+                    //getting place details
                     service = new google.maps.places.PlacesService(map);
                     service.getDetails(request, callback)
                     function callback(place, status) {
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
-                            console.log("place id " + place.place_id);
-                            console.log("price " + place.price_level);
-                            console.log("open? " + place.opening_hours.open_now);///can use this to only display what's open now too
+                            //for displaying is open or not
+                            var isOpen = "???";
+                            if (place.opening_hours.open_now) {
+                                isOpen = "Open";
+                            }
+                            else if (place.opening_hours.open_now === false) {
+                                isOpen = "Closed";
+                            }
                             $(".bar-quick-view").append(
                                 `<div class="row barSection text-center">
                             <div class="bar-name col-sm-12">${place.name}</div>
                                 <div class="col-sm-12">
-                                    Open? | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
+                                    ${isOpen} | ${place.vicinity} | <a href="${place.website}" target="_blank">website</a>
                                 </div>
                                 <div>
                                 <button class="rate" data-name="${place.name}" data-id="${place.place_id}">Rate</button> 
@@ -231,9 +230,7 @@ console.log ("hey");
             database.ref(placeID).once("value", function (snap) {
                 var snapshot = snap.val();
                 currentValue = snapshot[questionName][selected];
-                console.log("original value" + currentValue);
                 currentValue++;
-                console.log("new value" + currentValue);
                 database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
             });
         }
