@@ -1,6 +1,6 @@
-t.withers3 [10:27 AM]
+
 body{
-    background-color: #eee;
+    background-color: #fff;
 }
 
 .developers{
@@ -9,7 +9,7 @@ body{
 
 .map-control {
        width: 100%;
-       height: 400px;
+       height: 70vh;
        margin-right: 40px;
       }
 
@@ -45,14 +45,6 @@ img.scaled {
     width: 79%;
 }  
 
-.devHead{
-    font-family: 'Timmana', sans-serif;
-    text-shadow: 1px 1px black;
-    color: #fee608;
-    font-size: 38px;
-    text-decoration: underline;     
-}
-
 .devImage{
     width: 150px;
     height: 150px;
@@ -62,43 +54,44 @@ img.scaled {
  padding-right: 0;
 }
 
-header {
-    
-    position: relative;
+header { 
  width: 100%;
- height: 100%;
+ height: 70vh;
  font-family: 'Kavivanar', sans-serif;
 }
-
-.logo{
-    background-color: black;
-    box-shadow: 1px 1px 5px grey;
+.parallax {
+  background: url('../images/header1.png') no-repeat 50% 50%;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
 }
 
-.logo img{
-
-    width: 200px;
- margin: 16px 36px;
- font-family: Amatic SC;
- }
-
-.logo a {
- text-decoration: none;
- font-size: 24px;
- color: #000;
- font-weight: bold;
- display: block;
+.navbar	{
+	text-align: center;
+	background-color: #fff;
+	z-index: 1;
 }
 
-.navbar{
+.navbar ul {
+}
 
- list-style: none;
- transition: .3s;
+.navbar ul li{
+ list-style-type: none;
+ margin: 0 5em;
+ float: left;
+ font-size: 1em;
 }
 
 .navbar a {
     color: #000;
 }
+
+.navbar img {
+	width: 150px;
+	height: 40px;
+	float: left;
+}
+
 
 <<<<<<< HEAD
 
@@ -133,8 +126,7 @@ header {
 }
 
 .bar-quick-view {
-    border: solid #000 2px;
-    padding: 5px 20px;
+    background-color: #fff;
 }
 
 .barSection {
@@ -195,38 +187,98 @@ body {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    top: 5em;
+    width: 80%; /* Full width */
+    height: 80%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border: 2px solid #000;
+    background-color: #fff; /* Fallback color */
+
 }
 
-/* Modal Content/Box */
+
+	/* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
+    background-color: #000;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 2px solid #000;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content label {
+	color: #fff;
+	margin-left: .5em;
+}
+
+.modal-content form {
+	text-align: center;
+	margin: auto;
+}
+
+.modal-content input {
+	margin-left: 1em;
+}
+
+.modal-header {
+    color: #fff;
+    background-color: #000;
+}
+
+#bar-name {
+    text-align: center;
+}
+
+.info-heading {
+	color: #fff;
+	margin-top: 1.5em;
+}
+
+.bar-info {
+    background-color: #eee;
+    padding-top: 2em;
+    margin-top: 2em;
+}
+
+.submit-button {
+    text-align: center;
+}
+
+#submit {
+    background-color: #000;
+    font-size: 16px;
+    width: 50%;
+    height: 40px;
+    color: #fff;
+    border: 2px solid #000;
+}
+
+#submit:hover {
+    background-color: #fff;
+    width: 60%;
+    font-size: 20px;
+    height: 45px;
+    transition: .5s;
+    color: #000;
+    border: 2px solid #000;
 }
 
 /* The Close Button */
 .close {
-    color: #aaa;
-    float: right;
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    left: 5px;
     font-size: 28px;
     font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
- 
  
  /* Sidebar Styles */
  
