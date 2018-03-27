@@ -1,6 +1,6 @@
 
 body{
-    background-color: #eee;
+    background-color: #fff;
 }
 
 .developers{
@@ -52,21 +52,6 @@ img.scaled {
 .full-width {
  padding-left: 0;
  padding-right: 0;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
 }
 
 header { 
@@ -203,12 +188,13 @@ body {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    top: 5em;
+    width: 80%; /* Full width */
+    height: 80%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
+    border: 2px solid #000;
     background-color: #fff; /* Fallback color */
-    background-color: rgba(255, 255, 255, 0.5); /* Black w/ opacity */
+
 }
 
 
@@ -217,7 +203,7 @@ body {
     background-color: #000;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 2px solid #000;
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
@@ -235,6 +221,15 @@ body {
 	margin-left: 1em;
 }
 
+.modal-header {
+    color: #fff;
+    background-color: #000;
+}
+
+#bar-name {
+    text-align: center;
+}
+
 .info-heading {
 	color: #fff;
 	margin-top: 1.5em;
@@ -242,15 +237,17 @@ body {
 
 /* The Close Button */
 .close {
-    color: #fff;
-    float: right;
+    color: #000;
+    position: absolute;
+    top: 5px;
+    left: 5px;
     font-size: 28px;
     font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: #ddd;
+    color: #ccc;
     text-decoration: none;
     cursor: pointer;
 }
