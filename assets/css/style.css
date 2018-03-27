@@ -66,6 +66,32 @@ header {
   background-size: cover;
 }
 
+footer {
+    height: 70px;
+    border-top: 2px solid #fff;
+    background-color: #000;
+}
+
+.frontEnd {
+    background-color: #eee;
+}
+
+.aboutUs {
+    margin-top: 2em;
+    padding: 2em;
+}
+
+
+.copyright {
+    top: 20px;
+    color: #fff;
+}
+
+.about-pic {
+    width: 200px;
+    height: 250px;
+}
+
 .navbar	{
 	text-align: center;
 	background-color: #fff;
