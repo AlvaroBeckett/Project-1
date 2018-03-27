@@ -19,6 +19,7 @@ var config = {
 // };
 
 firebase.initializeApp(config);
+var database = firebase.database();
 
 
 
@@ -140,138 +141,107 @@ function initMap() {
 
 
 //===================== Modal Stuff
-
-var ratings =[
-    {question: "Guy/Girl Ratio",
-    answerChoices: ["More Guys", "More Gals", "Equal Ratio"],
+var ratings = [
+    {
+        question: "Guy to Girl Ratio",
+        answerChoices: ["More Guys", "More Girls", "Equal Ratio"],
     },
-    {question: "Atmosphere",
-    answerChoices: ["Dead", "Chill", "Inviting", "Epic"],
+    {
+        question: "Atmosphere",
+        answerChoices: ["Dead", "Chill", "Inviting", "Epic"],
     },
-    {question: "Cleanliness",
-    answerChoices: ["Gross", "Eh...", "Clean"],
+    {
+        question: "Cleanliness",
+        answerChoices: ["Gross", "Eh", "Clean"],
     },
 ];
 
 //when rate clicked, will show modal and grabs the bar name and id
-$(document).on("click",".rate", function(){
+$(document).on("click", ".rate", function () {
     $("#myModal").css("display", "block");
     var barName = $(this).data("name");
     var placeID = $(this).data("id");
     console.log("id: " + placeID);
 
+    //clearing form and setting showing bar name for bar clicked
     $("form").empty();
     $("#bar-name").html(barName);
 
 
-$("form").empty();
-$("#bar-name").html($(this).data("name"));
-//displaying questions and answer choices
-//display question
+    //displaying questions and answer choices 
+    //display question
     for (var i = 0; i < ratings.length; i++) {
         $("form").append(
             `<div id="rating${i}" class="form-group">
-            <label class="control-label">${ratings[i].question}</label>
-            </div>`);
+        <label class="control-label">${ratings[i].question}</label>
+        </div>`);
         //display rating options
         for (var j = 0; j < ratings[i].answerChoices.length; j++) {
             $(`#rating${i}`).append(
                 `<div class="radio">
-                <label>
-                <input type="radio" name="${ratings[i].question}" value="${ratings[i].answerChoices[j]}">
-                 ${ratings[i].answerChoices[j]}
-                </label>
-                </div>`);
+            <label>
+            <input type="radio" name="${ratings[i].question}" value="${ratings[i].answerChoices[j]}">
+             ${ratings[i].answerChoices[j]}
+            </label>
+            </div>`);
         }
     }
+    //submit button
     $("form").append(
         `<div class="form-group">
-            <button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
-        </div>`
+		<button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
+	</div>`
     );
-});
-
-$("#submit").on("click", function (event) {
-    event.preventDefault();
-
-//*** need to do something where it can look at database and if the placeid is in there it will update the ratings (all counters) 
-//if not then it will creat the setup.
-//and then it will update the counter with the input
-//then run thorough each category and find counter with most-> that's what should be display as " current" rating
 
 
-    //creates a rating setup and add its to database with the place id as the id
-    var newRating = {
-        name: barName,
-        R1: { moreGuys: 0, moreGals: 0, EqualRatio: 0 },
-        R2: { Dead: 0, Chill: 0, Inviting: 0, Epic: 0 },
-        R3: { Gross: 0, Eh: 0, Clean: 0 }
-    };
-    console.log("new rating " + newRating)
-    database.ref().child(placeID).set(newRating);
-
-     //Grab selections (not currently working but it was)
-     for (var i = 0; i < ratings.length; i++) {
-        console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
-        //grab answer choices
-        for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+    //check to see if placeID is in database
+    database.ref(placeID).on("value", function (snap) {
+        var snapshot = snap.val()
+        //if it's not in the database, add a blank rating setup
+        if (snapshot === null) {
+            console.log("not here");
+            var q1 = ratings[0];
+            var newRating = {
+                name: barName,
+                "Guy to Girl Ratio": { "More Guys": 0, "More Gals": 0, "Equal Ratio": 0 },
+                "Atmosphere": { "Dead": 0, "Chill": 0, "Inviting": 0, "Epic": 0 },
+                "Cleanliness": { "Gross": 0, "Eh": 0, "Clean": 0 }
+            };
+            console.log("new rating " + newRating)
+            database.ref().child(placeID).set(newRating);
         }
-    }
-});
-
-//closing the modal
-$(".close").on ("click", function () {
-    $("#myModal").css("display", "none");
-});
+        else {
+            console.log(snap.val());
+        }
+    });
 
 
-//++++++++++++++++++++++++++++++++++++++
-//Getting new rating into firebase
-var database = firebase.database();
-database.ref().on("value", function(snapshot) {
-   console.log(snapshot.val());
-   snapshot.forEach(function(child) {
+    $("#submit").on("click", function (event) {
        
-       child.forEach(function (child){
-        console.log(child+": "+child.val());
-           
-    })
-     });
-});
+console.log ("hey");
 
-$("#submit").on("click", function (event) {
-   event.preventDefault();
+        //Grab selections
+        for (var i = 0; i < ratings.length; i++) {
 
-   //Grab selections
-   for (var i = 0; i < ratings.length; i++) {  
-   console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
-   //grab answer choices
-   for (var j = 0; j < ratings[i].answerChoices.length; j++) {
+            //grab question name and selection
+            var questionName = ratings[i].question;
+            var selected = $(`input:radio[name="${ratings[i].question}"]:checked`).val()
 
-   
-   }
-   }
+            //update rating for each rating question
+            database.ref(placeID).once("value", function (snap) {
+                var snapshot = snap.val();
+                currentValue = snapshot[questionName][selected];
+                console.log("original value" + currentValue);
+                currentValue++;
+                console.log("new value" + currentValue);
+                database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
+            });
+        }
+    });
 
-
-   var newR1 = r1; //(r1 + storedR1)/numberRatings;
-   var newR2 = r2;//(r2 + storedR2)/numberRatings;
-   var newR3 = r3;//(r3 + storedR3)/numberRatings;
-
-   var newRating = {
-       name: $("#bar-name").val(),
-       R1: newR1,
-       R2: newR2,
-       R3: newR3, //add timestamp?
-   };
-
-   console.log(newRating)
-   database.ref().push(newRating);
-   //clear inputs
-   $("input").val("");
-
-   $("#r1avg").empty().html(newR1);
-   $("#r2avg").empty().html(newR2);
-   $("#r3avg").empty().html(newR3);
-
+    //closing the modal
+    $(".close").on("click", function () {
+        $("#myModal").css("display", "none");
+    });
 
 });
