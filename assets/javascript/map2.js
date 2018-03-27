@@ -185,7 +185,7 @@ $("#bar-name").html($(this).data("name"));
         }
     }
     $("form").append(
-        `<div class="form-group">
+        `<div class="form-group submit-button">
             <button id="submit" class="btn btn-primary " name="submit" type="submit">Submit</button>
         </div>`
     );

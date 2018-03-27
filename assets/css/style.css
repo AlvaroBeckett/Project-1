@@ -126,8 +126,7 @@ header {
 }
 
 .bar-quick-view {
-    border: solid #000 2px;
-    padding: 5px 20px;
+    background-color: #fff;
 }
 
 .barSection {
@@ -235,9 +234,38 @@ body {
 	margin-top: 1.5em;
 }
 
+.bar-info {
+    background-color: #eee;
+    padding-top: 2em;
+    margin-top: 2em;
+}
+
+.submit-button {
+    text-align: center;
+}
+
+#submit {
+    background-color: #000;
+    font-size: 16px;
+    width: 50%;
+    height: 40px;
+    color: #fff;
+    border: 2px solid #000;
+}
+
+#submit:hover {
+    background-color: #fff;
+    width: 60%;
+    font-size: 20px;
+    height: 45px;
+    transition: .5s;
+    color: #000;
+    border: 2px solid #000;
+}
+
 /* The Close Button */
 .close {
-    color: #000;
+    color: #fff;
     position: absolute;
     top: 5px;
     left: 5px;
@@ -247,7 +275,7 @@ body {
 
 .close:hover,
 .close:focus {
-    color: #ccc;
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
