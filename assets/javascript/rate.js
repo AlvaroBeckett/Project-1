@@ -14,7 +14,7 @@ var database = firebase.database();
 var ratings = [
     {
         question: "Guy to Girl Ratio",
-        answerChoices: ["More Guys", "More Girls", "Equal Ratio"],
+        answerChoices: ["More Guys", "More Gals", "Equal Ratio"],
     },
     {
         question: "Atmosphere",
@@ -62,12 +62,10 @@ $("form").append(
 
 
 //check to see if placeID is in database
-database.ref(placeID).on("value", function (snap) {
+database.ref(placeID).once("value", function (snap) {
     var snapshot = snap.val()
     //if it's not in the database, add a blank rating setup
     if (snapshot === null) {
-        console.log("not here");
-        var q1 = ratings[0];
         var newRating = {
             name: barName,
             "Guy to Girl Ratio" : { "More Guys": 0, "More Gals": 0, "Equal Ratio": 0 },
@@ -87,13 +85,15 @@ $("#submit").on("click", function (event) {
     event.preventDefault();
 
     //Grab selections
-    for (var i = 0; i < ratings.length; i++) {
-        console.log(ratings[i].question);
+    // for (var i = 0; i < ratings.length; i++) {
+        ratings.forEach(function(i){
+            console.log(i.question);
+        // console.log(ratings[i].question);
         // console.log("Selected:" + $(`input:radio[name="${ratings[i].question}"]:checked`).val());
 
         //crate variable with selection, if that variable === the string of the rating, add 1 to the count of that rating
-        var questionName = ratings[i].question;
-        var selected = $(`input:radio[name="${ratings[i].question}"]:checked`).val()
+        var questionName = i.question;
+        var selected = $(`input:radio[name="${i.question}"]:checked`).val()
         
         database.ref(placeID).once("value", function (snap) {
             var snapshot = snap.val();
@@ -103,7 +103,8 @@ $("#submit").on("click", function (event) {
             console.log("new value" + currentValue);
             database.ref().child(placeID).child(questionName).child(selected).set(currentValue);
         });
-    }
+    // }
+    });
     $("input").val("");
 });
 
