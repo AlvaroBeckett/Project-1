@@ -8,7 +8,7 @@
     <!-- Styling -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/css2.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
@@ -21,34 +21,27 @@
 </head>
 
 <body>
-    <!-- <div class="w3-teal">
-                <button class="w3-button w3-teal  w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
-                <div class="w3-container">
-                </div>
-              </div>
-              <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="rightMenu">
-                    <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-                    <a href="index.html" class="w3-bar-item w3-button">Home</a>
-                    <a href="about.html" class="w3-bar-item w3-button">About</a>
-                    <a href="https://showtheway.io/to/37.5503127,-77.46954690000001" class="w3-bar-item w3-button">Uber</a>
-                  </div>
-    <div class="container-fluid text-center">
-        <header class="full-width">
-            <nav>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 logo"><img src="assets/images/logo.png"></div>
-                    
-                </div>
-            </nav>
-        </header>
-    </div> -->
+    <div class="navbar">
+    <img class="logo" src="assets/images/logo.png">
+        <ul>
+
+            <li><a href="">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Uber</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid text-center full-width">
+        <header class="full-width parallax"></header>
+    </div>
 
     <!-- Main body -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="row quick-view">
-            <div class="col-lg-6 col-sm-12 map-control" id="map">
+            <div class="col-lg-12 col-sm-12 map-control" id="map">
                 <!-- Map appears inside here -->
             </div>
+        </div>
+        <div class="row">
 
             <div class="col-lg-5 col-sm-12 bar-quick-view">
                 <!-- bar sections will go here -->

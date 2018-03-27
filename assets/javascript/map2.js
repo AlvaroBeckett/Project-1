@@ -73,7 +73,7 @@ function initMap() {
     function findPlaces(service, location, keyword, icon) {
         var request = {
             location: location,
-            radius: '1000', //changed this from 5000 for testing
+            radius: '5000', //changed this from 5000 for testing
             keyword: keyword, //=========================== change to keyword for nearby search
             icon: icon,
         };
